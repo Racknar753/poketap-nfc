@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>PokéTap GTA | Nova Forge 3D</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #101827;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    header, footer {
+      background: #1f2937;
+      padding: 25px 16px;
+    }
+    .languages {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .languages button {
+      border: 2px solid transparent;
+      border-radius: 12px;
+      background: #374151;
+      padding: 10px 17px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+    .languages button.active {
+      background: #ffcb05;
+      border-color: #ffcb05;
+    }
+    h1 {
+      color: #ffcb05;
+      margin: 0 0 10px;
+      font-size: 35px;
+    }
+    .subtitle, .description, footer p {
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 48px 20px;
+    }
+    .symbol {
+      font-size: 84px;
+      margin-bottom: 15px;
+    }
+    h2 {
+      font-size: 28px;
+      margin: 12px 0;
+    }
+    .description {
+      max-width: 350px;
+      font-size: 15px;
+      margin-bottom: 30px;
+    }
+    .play {
+      background: #ffcb05;
+      color: #101827;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 20px 32px;
+      border-radius: 14px;
+      display: inline-block;
+      box-shadow: 0 5px 20px #ffcb0533;
+    }
+    .note {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-top: 23px;
+      max-width: 330px;
+      line-height: 1.6;
+    }
+    footer h3 {
+      color: #ffcb05;
+      margin: 0;
+      font-size: 21px;
+    }
+    footer a {
+      color: #ffcb05;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .copyright {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="languages">
+      <button id="es" class="active"
+        onclick="setLanguage('es')"
+        aria-label="Español">🇪🇸</button>
+      <button id="en"
+        onclick="setLanguage('en')"
+        aria-label="English">🇺🇸</button>
+    </div>
+    <h1>🎮 PokéTap</h1>
+    <p class="subtitle"
+      data-es="Tu aventura retro comienza aquí"
+      data-en="Your retro adventure starts here">
+      Tu aventura retro comienza aquí
+    </p>
+  </header>
+
+  <main>
+    <div class="symbol">🚘</div>
+    <h2>GTA San Andreas</h2>
+
+    <p class="description"
+      data-es="Explora Los Santos y disfruta tu aventura desde el navegador de tu celular."
+      data-en="Explore Los Santos and enjoy your adventure from your phone's browser.">
+      Explora Los Santos y disfruta tu aventura desde el navegador de tu celular.
+    </p>
+
+    <a class="play"
+       href="https://sir-teo.github.io/web-gta/">
+      ▶ JUGAR AHORA
+    </a>
+
+    <p class="note"
+      data-es="El juego se abrirá en una página externa. La compatibilidad depende del navegador y del dispositivo."
+      data-en="The game opens on an external website. Compatibility depends on your browser and device.">
+      El juego se abrirá en una página externa. La compatibilidad depende del navegador y del dispositivo.
+    </p>
+  </main>
+
+  <footer>
+    <h3>✨ Nova Forge 3D</h3>
+    <p data-es="Impresión 3D • Cosplay • Experiencias retro"
+       data-en="3D Printing • Cosplay • Retro Experiences">
+       Impresión 3D • Cosplay • Experiencias retro
+    </p>
+    <a href="https://www.instagram.com/novaforge3.d/"
+       target="_blank" rel="noopener noreferrer">
+      📸 Instagram @novaforge3.d
+    </a>
+    <p class="copyright">© 2026 Nova Forge 3D</p>
+  </footer>
+
+  <script>
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-es]").forEach(el => {
+        el.textContent = el.getAttribute("data-" + lang);
+      });
+
+      document.getElementById("es").classList.toggle("active", lang === "es");
+      document.getElementById("en").classList.toggle("active", lang === "en");
+
+      document.querySelector(".play").textContent =
+        lang === "es" ? "▶ JUGAR AHORA" : "▶ PLAY NOW";
+    }
+  </script>
+</body>
+</html>
