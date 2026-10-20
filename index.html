@@ -3,66 +3,97 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
 
   <title>PokéTap NFC | Nova Forge 3D</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       background: #101827;
-      color: white;
+      color: #fff;
       font-family: Arial, sans-serif;
       text-align: center;
     }
 
-    header {
+    header, footer {
       background: #1f2937;
-      padding: 20px 12px;
+      padding: 22px 14px;
     }
 
     h1 {
       color: #ffcb05;
+      margin: 8px 0;
       font-size: 28px;
-      margin: 0;
     }
 
     .subtitle {
       color: #cbd5e1;
       font-size: 14px;
-      margin-top: 10px;
     }
 
-    .game-container {
-      width: 100%;
-      max-width: 900px;
-      margin: 18px auto;
-      padding: 0 8px;
+    .languages {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 16px 0 4px;
     }
 
-    iframe {
-      display: block;
-      width: 100%;
-      height: 75vh;
-      min-height: 450px;
+    button, .play-link {
       border: none;
-      border-radius: 12px;
-      background: black;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
     }
 
-    footer {
-      padding: 25px 12px;
-      background: #1f2937;
-      margin-top: 20px;
+    .languages button {
+      background: #374151;
+      color: white;
     }
 
-    footer h3 {
-      margin: 0 0 10px;
+    .languages button.active {
+      background: #ffcb05;
+      color: #101827;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 10px 25px;
+    }
+
+    .game-frame {
+      width: 100%;
+      height: 72dvh;
+      min-height: 430px;
+      border: 0;
+      border-radius: 14px;
+      background: #f5f1e6;
+    }
+
+    .help {
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 20px 5px;
+    }
+
+    .play-link {
+      display: inline-block;
+      background: #ffcb05;
+      color: #101827;
+      text-decoration: none;
+      margin-bottom: 8px;
+    }
+
+    footer h2 {
       color: #ffcb05;
+      font-size: 20px;
     }
 
     footer p {
@@ -71,30 +102,22 @@
     }
 
     footer a {
-      display: inline-block;
       color: #ffcb05;
-      font-weight: bold;
       text-decoration: none;
-      margin-top: 10px;
+      font-weight: bold;
     }
 
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    .copyright {
-      font-size: 11px;
+    .small {
       color: #94a3b8;
+      font-size: 11px;
       margin-top: 20px;
     }
 
     @media (max-width: 600px) {
-      h1 {
-        font-size: 24px;
-      }
+      h1 { font-size: 25px; }
 
-      iframe {
-        height: 72dvh;
+      .game-frame {
+        height: 68dvh;
         min-height: 420px;
       }
     }
@@ -104,43 +127,93 @@
 <body>
 
   <header>
+    <div class="languages">
+      <button id="esBtn" class="active"
+              onclick="setLanguage('es')">
+        🇪🇸 Español
+      </button>
+
+      <button id="enBtn"
+              onclick="setLanguage('en')">
+        🇺🇸 English
+      </button>
+    </div>
+
     <h1>🎮 PokéTap NFC</h1>
-    <p class="subtitle">
+
+    <p class="subtitle" data-es="Tu consola retro en el celular"
+       data-en="Your retro console on your phone">
       Tu consola retro en el celular
     </p>
   </header>
 
-  <main class="game-container">
+  <main>
 
     <iframe
+      class="game-frame"
       src="https://retrogames.games/embed/pokemon-fire-red-extended-v3-2"
-      title="Pokemon Fire Red Extended v3.2"
-      scrolling="no"
+      title="Pokemon Fire Red Extended"
+      allow="fullscreen; autoplay"
       allowfullscreen>
     </iframe>
+
+    <p class="help"
+       data-es="¿El juego no carga? Prueba abrirlo directamente en el navegador."
+       data-en="Game not loading? Try opening it directly in your browser.">
+      ¿El juego no carga? Prueba abrirlo directamente en el navegador.
+    </p>
+
+    <a class="play-link"
+       href="https://retrogames.games/embed/pokemon-fire-red-extended-v3-2"
+       target="_blank"
+       rel="noopener noreferrer"
+       data-es="🎮 Abrir juego directamente"
+       data-en="🎮 Open game directly">
+      🎮 Abrir juego directamente
+    </a>
 
   </main>
 
   <footer>
 
-    <h3>✨ Creado por Nova Forge 3D</h3>
+    <h2 data-es="✨ Creado por Nova Forge 3D"
+        data-en="✨ Created by Nova Forge 3D">
+      ✨ Creado por Nova Forge 3D
+    </h2>
 
-    <p>
+    <p data-es="Impresión 3D • Cosplay • Tecnología NFC"
+       data-en="3D Printing • Cosplay • NFC Technology">
       Impresión 3D • Cosplay • Tecnología NFC
     </p>
 
-    <a
-      href="https://www.instagram.com/novaforge3.d/"
-      target="_blank"
-      rel="noopener noreferrer">
-      📸 Síguenos en Instagram @novaforge3.d
+    <a href="https://www.instagram.com/novaforge3.d/"
+       target="_blank"
+       rel="noopener noreferrer">
+      📸 Instagram @novaforge3.d
     </a>
 
-    <p class="copyright">
-      © 2026 Nova Forge 3D
-    </p>
+    <p class="small">© 2026 Nova Forge 3D</p>
 
   </footer>
+
+  <script>
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll("[data-es]").forEach(
+        element => {
+          element.textContent =
+            element.getAttribute("data-" + lang);
+        }
+      );
+
+      document.getElementById("esBtn")
+        .classList.toggle("active", lang === "es");
+
+      document.getElementById("enBtn")
+        .classList.toggle("active", lang === "en");
+    }
+  </script>
 
 </body>
 </html>
