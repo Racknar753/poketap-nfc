@@ -6,28 +6,30 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
 
-  <title>PokéTap NFC | Nova Forge 3D</title>
+  <title>PokéTap | Nova Forge 3D</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       background: #101827;
-      color: #fff;
+      color: white;
       font-family: Arial, sans-serif;
       text-align: center;
     }
 
-    header, footer {
+    header {
       background: #1f2937;
-      padding: 22px 14px;
+      padding: 20px 12px;
     }
 
     h1 {
       color: #ffcb05;
-      margin: 8px 0;
-      font-size: 28px;
+      font-size: 30px;
+      margin: 12px 0 5px;
     }
 
     .subtitle {
@@ -39,39 +41,36 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin: 16px 0 4px;
+      margin-bottom: 15px;
     }
 
-    button, .play-link {
+    button {
       border: none;
       border-radius: 10px;
-      padding: 12px 18px;
+      padding: 11px 17px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 14px;
-    }
-
-    .languages button {
       background: #374151;
       color: white;
     }
 
-    .languages button.active {
+    button.active {
       background: #ffcb05;
       color: #101827;
     }
 
     main {
       max-width: 900px;
-      margin: 0 auto;
-      padding: 16px 10px 25px;
+      margin: auto;
+      padding: 20px 10px;
     }
 
     .game-frame {
+      display: block;
       width: 100%;
       height: 72dvh;
       min-height: 430px;
-      border: 0;
+      border: none;
       border-radius: 14px;
       background: #f5f1e6;
     }
@@ -80,7 +79,7 @@
       color: #cbd5e1;
       font-size: 13px;
       line-height: 1.5;
-      margin: 20px 5px;
+      margin: 20px 0;
     }
 
     .play-link {
@@ -88,12 +87,20 @@
       background: #ffcb05;
       color: #101827;
       text-decoration: none;
-      margin-bottom: 8px;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background: #1f2937;
+      padding: 25px 12px;
     }
 
     footer h2 {
       color: #ffcb05;
-      font-size: 20px;
+      font-size: 21px;
     }
 
     footer p {
@@ -107,14 +114,16 @@
       font-weight: bold;
     }
 
-    .small {
+    .copyright {
       color: #94a3b8;
       font-size: 11px;
       margin-top: 20px;
     }
 
     @media (max-width: 600px) {
-      h1 { font-size: 25px; }
+      h1 {
+        font-size: 26px;
+      }
 
       .game-frame {
         height: 68dvh;
@@ -127,6 +136,7 @@
 <body>
 
   <header>
+
     <div class="languages">
       <button id="esBtn" class="active"
               onclick="setLanguage('es')">
@@ -139,12 +149,14 @@
       </button>
     </div>
 
-    <h1>🎮 PokéTap NFC</h1>
+    <h1>🎮 PokéTap</h1>
 
-    <p class="subtitle" data-es="Tu consola retro en el celular"
+    <p class="subtitle"
+       data-es="Tu consola retro en el celular"
        data-en="Your retro console on your phone">
       Tu consola retro en el celular
     </p>
+
   </header>
 
   <main>
@@ -158,9 +170,9 @@
     </iframe>
 
     <p class="help"
-       data-es="¿El juego no carga? Prueba abrirlo directamente en el navegador."
+       data-es="¿El juego no carga? Prueba abrirlo directamente en tu navegador."
        data-en="Game not loading? Try opening it directly in your browser.">
-      ¿El juego no carga? Prueba abrirlo directamente en el navegador.
+      ¿El juego no carga? Prueba abrirlo directamente en tu navegador.
     </p>
 
     <a class="play-link"
@@ -176,23 +188,28 @@
 
   <footer>
 
-    <h2 data-es="✨ Creado por Nova Forge 3D"
-        data-en="✨ Created by Nova Forge 3D">
+    <h2
+      data-es="✨ Creado por Nova Forge 3D"
+      data-en="✨ Created by Nova Forge 3D">
       ✨ Creado por Nova Forge 3D
     </h2>
 
-    <p data-es="Impresión 3D • Cosplay • Tecnología NFC"
-       data-en="3D Printing • Cosplay • NFC Technology">
-      Impresión 3D • Cosplay • Tecnología NFC
+    <p
+      data-es="Impresión 3D • Cosplay • Experiencias retro"
+      data-en="3D Printing • Cosplay • Retro Experiences">
+      Impresión 3D • Cosplay • Experiencias retro
     </p>
 
-    <a href="https://www.instagram.com/novaforge3.d/"
-       target="_blank"
-       rel="noopener noreferrer">
+    <a
+      href="https://www.instagram.com/novaforge3.d/"
+      target="_blank"
+      rel="noopener noreferrer">
       📸 Instagram @novaforge3.d
     </a>
 
-    <p class="small">© 2026 Nova Forge 3D</p>
+    <p class="copyright">
+      © 2026 Nova Forge 3D
+    </p>
 
   </footer>
 
@@ -200,12 +217,11 @@
     function setLanguage(lang) {
       document.documentElement.lang = lang;
 
-      document.querySelectorAll("[data-es]").forEach(
-        element => {
+      document.querySelectorAll("[data-es]")
+        .forEach(element => {
           element.textContent =
             element.getAttribute("data-" + lang);
-        }
-      );
+        });
 
       document.getElementById("esBtn")
         .classList.toggle("active", lang === "es");
