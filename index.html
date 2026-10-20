@@ -5,31 +5,61 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
-  <title>PokéTap NFC</title>
+  <title>PokéTap NFC | Consola Retro</title>
+
   <style>
+    * { box-sizing: border-box; }
+
     body {
-      background: #111827;
+      margin: 0;
+      background: #101827;
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 40px 15px;
     }
-    h1 { color: #ffcb05; }
-    .card {
+
+    header {
+      padding: 18px;
       background: #1f2937;
-      padding: 30px;
-      border-radius: 20px;
-      max-width: 450px;
-      margin: 30px auto;
+    }
+
+    h1 {
+      color: #ffcb05;
+      margin: 0;
+    }
+
+    p {
+      color: #cbd5e1;
+    }
+
+    #game {
+      width: 100%;
+      max-width: 800px;
+      height: 75dvh;
+      min-height: 400px;
+      margin: 15px auto;
     }
   </style>
 </head>
+
 <body>
-  <div class="card">
+  <header>
     <h1>🎮 PokéTap NFC</h1>
-    <h2>¡Bienvenido!</h2>
-    <p>Tu colección de cartuchos NFC.</p>
-    <p>Próximamente: juegos retro.</p>
-  </div>
+    <p>Tu consola retro en el celular</p>
+  </header>
+
+  <div id="game"></div>
+
+  <script>
+    var EJS_player = "#game";
+    var EJS_core = "gba";
+    var EJS_gameName = "PokéTap - Juego de prueba";
+    var EJS_gameUrl = "./juegos/demo.gba";
+    var EJS_pathtodata =
+      "https://cdn.emulatorjs.org/stable/data/";
+    var EJS_startOnLoaded = true;
+  </script>
+
+  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
 </body>
 </html>
