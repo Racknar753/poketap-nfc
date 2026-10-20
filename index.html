@@ -3,8 +3,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
 
   <title>PokéTap | Nova Forge 3D</title>
 
@@ -15,119 +15,151 @@
 
     body {
       margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
       background: #101827;
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
       background: #1f2937;
-      padding: 20px 12px;
-    }
-
-    h1 {
-      color: #ffcb05;
-      font-size: 30px;
-      margin: 12px 0 5px;
-    }
-
-    .subtitle {
-      color: #cbd5e1;
-      font-size: 14px;
+      padding: 25px 15px;
     }
 
     .languages {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 11px 17px;
-      font-weight: bold;
-      cursor: pointer;
+    .languages button {
       background: #374151;
+      border: 2px solid transparent;
       color: white;
+      padding: 10px 17px;
+      border-radius: 12px;
+      font-size: 25px;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    button.active {
+    .languages button.active {
       background: #ffcb05;
-      color: #101827;
+      border-color: #ffcb05;
+    }
+
+    h1 {
+      color: #ffcb05;
+      font-size: 36px;
+      margin: 0 0 12px;
+    }
+
+    .subtitle {
+      color: #cbd5e1;
+      font-size: 15px;
+      margin: 0;
     }
 
     main {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px 10px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 45px 20px;
     }
 
-    .game-frame {
-      display: block;
-      width: 100%;
-      height: 72dvh;
-      min-height: 430px;
-      border: none;
-      border-radius: 14px;
-      background: #f5f1e6;
+    .controller {
+      font-size: 85px;
+      margin-bottom: 20px;
     }
 
-    .help {
-      color: #cbd5e1;
-      font-size: 13px;
-      line-height: 1.5;
-      margin: 20px 0;
-    }
-
-    .play-link {
-      display: inline-block;
-      background: #ffcb05;
-      color: #101827;
-      text-decoration: none;
-      padding: 13px 20px;
-      border-radius: 10px;
+    .message {
+      color: white;
+      font-size: 21px;
       font-weight: bold;
       margin-bottom: 10px;
     }
 
+    .description {
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 340px;
+      margin-bottom: 30px;
+    }
+
+    .play-button {
+      display: inline-block;
+      background: #ffcb05;
+      color: #101827;
+      text-decoration: none;
+      padding: 19px 35px;
+      border-radius: 14px;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 5px 20px rgba(255,203,5,0.2);
+      transition: transform 0.2s;
+    }
+
+    .play-button:active {
+      transform: scale(0.96);
+    }
+
+    .note {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-top: 22px;
+    }
+
     footer {
       background: #1f2937;
-      padding: 25px 12px;
+      padding: 25px 15px;
     }
 
     footer h2 {
       color: #ffcb05;
       font-size: 21px;
+      margin: 0 0 12px;
     }
 
     footer p {
       color: #cbd5e1;
       font-size: 13px;
+      line-height: 1.6;
     }
 
     footer a {
+      display: inline-block;
       color: #ffcb05;
       text-decoration: none;
       font-weight: bold;
+      margin-top: 10px;
     }
 
     .copyright {
       color: #94a3b8;
       font-size: 11px;
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
     @media (max-width: 600px) {
       h1 {
-        font-size: 26px;
+        font-size: 30px;
       }
 
-      .game-frame {
-        height: 68dvh;
-        min-height: 420px;
+      .controller {
+        font-size: 70px;
+      }
+
+      .play-button {
+        font-size: 18px;
+        padding: 17px 30px;
       }
     }
   </style>
@@ -136,53 +168,68 @@
 <body>
 
   <header>
-
     <div class="languages">
-      <button id="esBtn" class="active"
-              onclick="setLanguage('es')">
-        🇪🇸 Español
+      <button
+        id="esBtn"
+        class="active"
+        type="button"
+        aria-label="Español"
+        onclick="setLanguage('es')">
+        🇪🇸
       </button>
 
-      <button id="enBtn"
-              onclick="setLanguage('en')">
-        🇺🇸 English
+      <button
+        id="enBtn"
+        type="button"
+        aria-label="English"
+        onclick="setLanguage('en')">
+        🇺🇸
       </button>
     </div>
 
     <h1>🎮 PokéTap</h1>
 
-    <p class="subtitle"
-       data-es="Tu consola retro en el celular"
-       data-en="Your retro console on your phone">
+    <p
+      class="subtitle"
+      data-es="Tu consola retro en el celular"
+      data-en="Your retro console on your phone">
       Tu consola retro en el celular
     </p>
-
   </header>
 
   <main>
 
-    <iframe
-      class="game-frame"
-      src="https://retrogames.games/embed/pokemon-fire-red-extended-v3-2"
-      title="Pokemon Fire Red Extended"
-      allow="fullscreen; autoplay"
-      allowfullscreen>
-    </iframe>
+    <div class="controller">🕹️</div>
 
-    <p class="help"
-       data-es="¿El juego no carga? Prueba abrirlo directamente en tu navegador."
-       data-en="Game not loading? Try opening it directly in your browser.">
-      ¿El juego no carga? Prueba abrirlo directamente en tu navegador.
+    <p
+      class="message"
+      data-es="¡Tu aventura está lista!"
+      data-en="Your adventure is ready!">
+      ¡Tu aventura está lista!
     </p>
 
-    <a class="play-link"
-       href="https://retrogames.games/embed/pokemon-fire-red-extended-v3-2"
-       target="_blank"
-       rel="noopener noreferrer"
-       data-es="🎮 Abrir juego directamente"
-       data-en="🎮 Open game directly">
-      🎮 Abrir juego directamente
+    <p
+      class="description"
+      data-es="Prepárate para disfrutar una aventura retro directamente desde tu celular."
+      data-en="Get ready to enjoy a retro adventure directly on your phone.">
+      Prepárate para disfrutar una aventura retro
+      directamente desde tu celular.
+    </p>
+
+    <a
+      class="play-button"
+      href="https://retrogames.games/embed/pokemon-fire-red-extended-v3-2"
+      data-es="▶ JUGAR AHORA"
+      data-en="▶ PLAY NOW">
+      ▶ JUGAR AHORA
     </a>
+
+    <p
+      class="note"
+      data-es="El juego se abrirá directamente en tu navegador."
+      data-en="The game will open directly in your browser.">
+      El juego se abrirá directamente en tu navegador.
+    </p>
 
   </main>
 
@@ -218,7 +265,7 @@
       document.documentElement.lang = lang;
 
       document.querySelectorAll("[data-es]")
-        .forEach(element => {
+        .forEach(function(element) {
           element.textContent =
             element.getAttribute("data-" + lang);
         });
