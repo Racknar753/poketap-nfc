@@ -4,33 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101827">
-
   <title>PokéTap Pokémon | Nova Forge 3D</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
       min-height: 100dvh;
       background: #101827;
-      color: #ffffff;
-      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      font-family: Arial, sans-serif;
       text-align: center;
+      display: flex;
+      flex-direction: column;
     }
 
-    header {
+    header, footer {
       background: #1f2937;
-      padding: 22px 16px 28px;
+      padding: 26px 16px;
     }
 
     .languages {
@@ -44,186 +39,98 @@
       background: #374151;
       border: 2px solid transparent;
       border-radius: 12px;
-      padding: 10px 16px;
+      padding: 10px 17px;
       font-size: 25px;
       cursor: pointer;
     }
 
     .languages button.active {
       background: #ffcb05;
-      border-color: #ffffff;
+      border-color: #ffcb05;
     }
 
     h1 {
       color: #ffcb05;
-      font-size: 36px;
+      font-size: 35px;
       margin: 0 0 12px;
     }
 
-    .subtitle {
+    .subtitle, .description {
       color: #cbd5e1;
-      font-size: 15px;
-      margin: 0;
+      line-height: 1.7;
     }
 
     main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 15px 55px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 20px;
     }
 
-    .controller {
-      font-size: 74px;
-      margin-bottom: 12px;
+    .symbol {
+      font-size: 80px;
+      margin-bottom: 20px;
     }
 
     h2 {
-      font-size: 27px;
-      margin: 12px 0;
+      font-size: 26px;
+      margin: 0 0 16px;
     }
 
     .description {
-      color: #cbd5e1;
       font-size: 15px;
-      line-height: 1.7;
-      max-width: 420px;
-      margin: 15px auto 28px;
+      max-width: 380px;
+      margin: 0 0 32px;
     }
 
-    button {
-      font-family: inherit;
-    }
-
-    .play-button {
+    .play {
+      display: inline-block;
       background: #ffcb05;
       color: #101827;
-      border: none;
-      padding: 19px 34px;
+      padding: 20px 35px;
       border-radius: 14px;
-      font-size: 19px;
+      font-size: 20px;
       font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 5px 20px rgba(255,203,5,0.25);
+      text-decoration: none;
+      box-shadow: 0 5px 20px #ffcb0533;
     }
 
-    .play-button:active {
+    .play:active {
       transform: scale(0.97);
     }
 
-    .game-section {
-      display: none;
-      margin-top: 30px;
-      width: 100%;
-    }
-
-    .game-section.visible {
-      display: block;
-    }
-
-    .game-title {
-      color: #ffcb05;
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
-    .game-container {
-      position: relative;
-      width: 100%;
-      background: #000000;
-      border: 2px solid #ffcb05;
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .game-frame {
-      display: block;
-      width: 100%;
-      height: 850px;
-      border: 0;
-      background: #000000;
-    }
-
-    .help {
+    .save-info {
       background: #1f2937;
       border-radius: 14px;
-      padding: 20px 16px;
-      margin-top: 20px;
+      padding: 22px;
+      max-width: 380px;
+      margin-top: 35px;
+      text-align: left;
     }
 
-    .help p {
+    .save-info h3 {
+      color: #ffcb05;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .save-info p {
       color: #cbd5e1;
       font-size: 13px;
       line-height: 1.7;
     }
 
-    .secondary-button {
-      display: inline-block;
-      background: #374151;
-      color: #ffcb05;
-      border: 1px solid #64748b;
-      border-radius: 12px;
-      padding: 14px 20px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-
-    .retry-button {
-      display: block;
-      margin: 14px auto 0;
-      padding: 10px 16px;
-      background: transparent;
-      border: 1px solid #64748b;
-      border-radius: 10px;
-      color: #cbd5e1;
-      cursor: pointer;
-    }
-
-    .instructions {
-      background: #1f2937;
-      border-radius: 15px;
-      padding: 23px;
-      margin: 32px auto 0;
-      max-width: 470px;
-      text-align: left;
-    }
-
-    .instructions h3 {
-      text-align: center;
-      color: #ffcb05;
-      margin-top: 0;
-    }
-
-    .instructions p {
-      color: #cbd5e1;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .note {
-      color: #94a3b8;
-      font-size: 12px;
-      line-height: 1.7;
-      max-width: 450px;
-      margin: 22px auto;
-    }
-
-    footer {
-      background: #1f2937;
-      padding: 30px 15px;
-    }
-
     footer h3 {
       color: #ffcb05;
+      margin: 0 0 12px;
       font-size: 21px;
-      margin: 0 0 13px;
     }
 
     footer p {
       color: #cbd5e1;
       font-size: 13px;
-      line-height: 1.7;
     }
 
     footer a {
@@ -237,34 +144,6 @@
       font-size: 11px;
       margin-top: 22px;
     }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 31px;
-      }
-
-      h2 {
-        font-size: 24px;
-      }
-
-      .controller {
-        font-size: 65px;
-      }
-
-      main {
-        padding: 35px 10px 45px;
-      }
-
-      .play-button {
-        padding: 18px 29px;
-        font-size: 18px;
-      }
-
-      .game-frame {
-        height: 82dvh;
-        min-height: 620px;
-      }
-    }
   </style>
 </head>
 
@@ -272,22 +151,15 @@
 
   <header>
     <div class="languages">
-      <button
-        id="esBtn"
-        class="active"
+      <button id="esBtn" class="active"
         type="button"
-        aria-label="Español"
-        onclick="setLanguage('es')">
-        🇪🇸
-      </button>
+        onclick="setLanguage('es')"
+        aria-label="Español">🇪🇸</button>
 
-      <button
-        id="enBtn"
+      <button id="enBtn"
         type="button"
-        aria-label="English"
-        onclick="setLanguage('en')">
-        🇺🇸
-      </button>
+        onclick="setLanguage('en')"
+        aria-label="English">🇺🇸</button>
     </div>
 
     <h1>🎮 PokéTap</h1>
@@ -300,214 +172,73 @@
   </header>
 
   <main>
-
-    <div class="controller">🕹️</div>
+    <div class="symbol">🕹️</div>
 
     <h2>Pokémon FireRed</h2>
 
     <p class="description"
-       data-es="¡Tu aventura en Kanto comienza aquí! Explora, captura Pokémon y continúa tu historia desde tu celular."
-       data-en="Your Kanto adventure starts here! Explore, catch Pokémon and continue your journey on your phone.">
-      ¡Tu aventura en Kanto comienza aquí!
+       data-es="¡Tu aventura en Kanto te espera! Explora, captura Pokémon y continúa tu historia desde tu celular."
+       data-en="Your Kanto adventure awaits! Explore, catch Pokémon and continue your journey on your phone.">
+      ¡Tu aventura en Kanto te espera!
       Explora, captura Pokémon y continúa
       tu historia desde tu celular.
     </p>
 
-    <button
-      id="playBtn"
-      class="play-button"
-      type="button"
-      onclick="startGame()"
-      data-es="▶ JUGAR AHORA"
-      data-en="▶ PLAY NOW">
+    <a class="play"
+       href="https://www.eggermath.com/pokemon-firered"
+       data-es="▶ JUGAR AHORA"
+       data-en="▶ PLAY NOW">
       ▶ JUGAR AHORA
-    </button>
+    </a>
 
-    <section
-      id="gameSection"
-      class="game-section"
-      aria-label="Reproductor Pokémon">
-
-      <h3 class="game-title"
-          data-es="🎮 Tu aventura comienza"
-          data-en="🎮 Your adventure begins">
-        🎮 Tu aventura comienza
+    <div class="save-info">
+      <h3 data-es="💾 Guarda tu aventura"
+          data-en="💾 Save your adventure">
+        💾 Guarda tu aventura
       </h3>
 
-      <div class="game-container">
-
-        <iframe
-          id="gameFrame"
-          class="game-frame"
-          title="Pokémon FireRed - EggerMath"
-          allow="autoplay; fullscreen; gamepad"
-          allowfullscreen>
-        </iframe>
-
-      </div>
-
-      <div class="help">
-        <p
-          data-es="Si aparece una pantalla negra, espera un momento y toca dentro del reproductor. Si continúa sin cargar, utiliza la alternativa de abajo."
-          data-en="If you see a black screen, wait a moment and tap inside the player. If it still does not load, use the alternative below.">
-          Si aparece una pantalla negra,
-          espera un momento y toca dentro
-          del reproductor. Si continúa sin
-          cargar, utiliza la alternativa
-          de abajo.
-        </p>
-
-        <a
-          class="secondary-button"
-          href="https://www.eggermath.com/pokemon-firered"
-          data-es="↗ Abrir juego original"
-          data-en="↗ Open original game">
-          ↗ Abrir juego original
-        </a>
-
-        <button
-          class="retry-button"
-          type="button"
-          onclick="retryGame()"
-          data-es="↻ Reintentar carga"
-          data-en="↻ Retry loading">
-          ↻ Reintentar carga
-        </button>
-      </div>
-
-      <p class="note"
-         data-es="El reproductor y los controles pertenecen a EggerMath. Las partidas guardadas pueden comportarse de forma diferente dentro de Safari."
-         data-en="The player and controls belong to EggerMath. Save files may behave differently inside Safari.">
-        El reproductor y los controles
-        pertenecen a EggerMath.
-        Las partidas guardadas pueden
-        comportarse de forma diferente
-        dentro de Safari.
-      </p>
-    </section>
-
-    <div class="instructions">
-
-      <h3
-        data-es="💾 Cómo guardar tu partida"
-        data-en="💾 How to save your game">
-        💾 Cómo guardar tu partida
-      </h3>
-
-      <p
-        data-es="1. Pulsa Save en el emulador para guardar tu progreso."
-        data-en="1. Press Save in the emulator to save your progress.">
-        1. Pulsa Save en el emulador
+      <p data-es="Presiona Save durante el juego para guardar tu progreso. Cuando regreses, utiliza Load para continuar."
+         data-en="Press Save during gameplay to save your progress. When you return, use Load to continue.">
+        Presiona Save durante el juego
         para guardar tu progreso.
+        Cuando regreses, utiliza
+        Load para continuar.
       </p>
 
-      <p
-        data-es="2. Cuando regreses, utiliza Load para recuperar tu partida."
-        data-en="2. When you return, use Load to recover your game.">
-        2. Cuando regreses, utiliza
-        Load para recuperar tu partida.
+      <p data-es="Utiliza Export para crear una copia de seguridad. No borres los datos del navegador si quieres conservar tu partida."
+         data-en="Use Export to back up your game. Do not clear browser data if you want to keep your progress.">
+        Utiliza Export para crear una copia
+        de seguridad. No borres los datos
+        del navegador si quieres conservar
+        tu partida.
       </p>
-
-      <p
-        data-es="3. Utiliza Export para crear una copia de seguridad antes de borrar datos del navegador."
-        data-en="3. Use Export to back up your game before clearing browser data.">
-        3. Utiliza Export para crear
-        una copia de seguridad antes
-        de borrar datos del navegador.
-      </p>
-
     </div>
-
-    <p class="note">
-      Powered by
-      <a
-        href="https://www.eggermath.com/pokemon-firered"
-        style="color:#ffcb05">
-        EggerMath
-      </a>
-    </p>
 
   </main>
 
   <footer>
-
-    <h3
-      data-es="✨ Creado por Nova Forge 3D"
-      data-en="✨ Created by Nova Forge 3D">
+    <h3 data-es="✨ Creado por Nova Forge 3D"
+        data-en="✨ Created by Nova Forge 3D">
       ✨ Creado por Nova Forge 3D
     </h3>
 
-    <p
-      data-es="Impresión 3D • Cosplay • Experiencias retro"
-      data-en="3D Printing • Cosplay • Retro Experiences">
+    <p data-es="Impresión 3D • Cosplay • Experiencias retro"
+       data-en="3D Printing • Cosplay • Retro Experiences">
       Impresión 3D • Cosplay • Experiencias retro
     </p>
 
-    <a
-      href="https://www.instagram.com/novaforge3.d/"
-      target="_blank"
-      rel="noopener noreferrer">
+    <a href="https://www.instagram.com/novaforge3.d/"
+       target="_blank"
+       rel="noopener noreferrer">
       📸 Instagram @novaforge3.d
     </a>
 
     <p class="copyright">
       © 2026 Nova Forge 3D
     </p>
-
   </footer>
 
   <script>
-    const GAME_URL =
-      "https://www.eggermath.com/pokemon-firered";
-
-    let gameStarted = false;
-
-    function startGame() {
-      const section =
-        document.getElementById("gameSection");
-
-      const frame =
-        document.getElementById("gameFrame");
-
-      // Mostrar el contenedor antes de cargar el juego.
-      section.classList.add("visible");
-
-      // Cargar solamente cuando el usuario pulse JUGAR.
-      if (!gameStarted) {
-        gameStarted = true;
-        frame.src = GAME_URL;
-      }
-
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-
-    function retryGame() {
-      const currentLang =
-        document.documentElement.lang;
-
-      const message =
-        currentLang === "en"
-          ? "Reloading may lose unsaved progress. Continue?"
-          : "Recargar puede perder el progreso no guardado. ¿Continuar?";
-
-      if (!confirm(message)) {
-        return;
-      }
-
-      const frame =
-        document.getElementById("gameFrame");
-
-      // Reiniciar el reproductor externo.
-      frame.src = "about:blank";
-
-      setTimeout(function() {
-        frame.src = GAME_URL;
-      }, 200);
-    }
-
     function setLanguage(lang) {
       document.documentElement.lang = lang;
 
@@ -518,16 +249,10 @@
         });
 
       document.getElementById("esBtn")
-        .classList.toggle(
-          "active",
-          lang === "es"
-        );
+        .classList.toggle("active", lang === "es");
 
       document.getElementById("enBtn")
-        .classList.toggle(
-          "active",
-          lang === "en"
-        );
+        .classList.toggle("active", lang === "en");
     }
   </script>
 
