@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111827">
-  <title>PokéTap GTA | Nova Forge 3D</title>
+  <meta name="theme-color" content="#101827">
+  <title>PokéTap Pokémon | Nova Forge 3D</title>
+
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -15,161 +17,297 @@
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      display: flex;
-      flex-direction: column;
     }
+
     header, footer {
       background: #1f2937;
       padding: 25px 16px;
     }
+
     .languages {
       display: flex;
       justify-content: center;
       gap: 12px;
       margin-bottom: 22px;
     }
+
     .languages button {
+      background: #374151;
       border: 2px solid transparent;
       border-radius: 12px;
-      background: #374151;
       padding: 10px 17px;
       font-size: 25px;
       cursor: pointer;
     }
+
     .languages button.active {
       background: #ffcb05;
       border-color: #ffcb05;
     }
+
     h1 {
       color: #ffcb05;
-      margin: 0 0 10px;
       font-size: 35px;
+      margin: 0 0 12px;
     }
-    .subtitle, .description, footer p {
+
+    .subtitle, .description {
       color: #cbd5e1;
       line-height: 1.6;
     }
+
     main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 48px 20px;
+      padding: 35px 16px 50px;
+      max-width: 950px;
+      margin: auto;
     }
+
     .symbol {
-      font-size: 84px;
-      margin-bottom: 15px;
+      font-size: 76px;
+      margin: 10px 0;
     }
+
     h2 {
-      font-size: 28px;
-      margin: 12px 0;
+      margin: 10px 0;
+      font-size: 27px;
     }
+
     .description {
-      max-width: 350px;
+      max-width: 420px;
+      margin: 15px auto 28px;
       font-size: 15px;
-      margin-bottom: 30px;
     }
+
     .play {
+      display: inline-block;
       background: #ffcb05;
       color: #101827;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 20px;
-      padding: 20px 32px;
+      border: none;
       border-radius: 14px;
-      display: inline-block;
+      padding: 18px 28px;
+      font-size: 19px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
       box-shadow: 0 5px 20px #ffcb0533;
     }
+
+    .secondary {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 14px 20px;
+      color: #ffcb05;
+      background: #263445;
+      border: 1px solid #475569;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .game-panel {
+      display: none;
+      width: 100%;
+      margin-top: 30px;
+    }
+
+    .game-panel.visible {
+      display: block;
+    }
+
+    .game-frame {
+      display: block;
+      width: 100%;
+      height: 780px;
+      border: 2px solid #ffcb05;
+      border-radius: 12px;
+      background: #000;
+    }
+
     .note {
       color: #94a3b8;
       font-size: 12px;
-      margin-top: 23px;
-      max-width: 330px;
-      line-height: 1.6;
+      line-height: 1.7;
+      margin: 20px auto 0;
+      max-width: 450px;
     }
+
     footer h3 {
+      margin: 0 0 12px;
       color: #ffcb05;
-      margin: 0;
-      font-size: 21px;
+      font-size: 22px;
     }
+
+    footer p {
+      color: #cbd5e1;
+      font-size: 13px;
+    }
+
     footer a {
       color: #ffcb05;
       text-decoration: none;
       font-weight: bold;
     }
+
     .copyright {
-      font-size: 11px;
+      margin-top: 22px;
       color: #94a3b8;
-      margin-top: 20px;
+      font-size: 11px;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 31px; }
+      h2 { font-size: 24px; }
+      .game-frame { height: 82vh; min-height: 580px; }
+      .play { font-size: 17px; }
     }
   </style>
 </head>
+
 <body>
   <header>
     <div class="languages">
-      <button id="es" class="active"
-        onclick="setLanguage('es')"
-        aria-label="Español">🇪🇸</button>
-      <button id="en"
-        onclick="setLanguage('en')"
-        aria-label="English">🇺🇸</button>
+      <button id="esBtn" class="active"
+        type="button"
+        aria-label="Español"
+        onclick="setLanguage('es')">🇪🇸</button>
+
+      <button id="enBtn"
+        type="button"
+        aria-label="English"
+        onclick="setLanguage('en')">🇺🇸</button>
     </div>
+
     <h1>🎮 PokéTap</h1>
+
     <p class="subtitle"
-      data-es="Tu aventura retro comienza aquí"
-      data-en="Your retro adventure starts here">
-      Tu aventura retro comienza aquí
+       data-es="Tu consola retro en el celular"
+       data-en="Your retro console on your phone">
+      Tu consola retro en el celular
     </p>
   </header>
 
   <main>
-    <div class="symbol">🚘</div>
-    <h2>GTA San Andreas</h2>
+    <div class="symbol">🔴</div>
+
+    <h2>Pokémon FireRed</h2>
 
     <p class="description"
-      data-es="Explora Los Santos y disfruta tu aventura desde el navegador de tu celular."
-      data-en="Explore Los Santos and enjoy your adventure from your phone's browser.">
-      Explora Los Santos y disfruta tu aventura desde el navegador de tu celular.
+       data-es="¡Tu aventura en Kanto comienza aquí! Juega desde tu celular y guarda tu progreso para continuar después."
+       data-en="Your Kanto adventure starts here! Play on your phone and save your progress to continue later.">
+      ¡Tu aventura en Kanto comienza aquí!
+      Juega desde tu celular y guarda tu progreso
+      para continuar después.
     </p>
 
-    <a class="play"
-       href="https://sir-teo.github.io/web-gta/">
-      ▶ JUGAR AHORA
-    </a>
+    <div class="actions">
+      <button class="play" type="button"
+              onclick="showGame()"
+              data-es="▶ JUGAR AQUÍ"
+              data-en="▶ PLAY HERE">
+        ▶ JUGAR AQUÍ
+      </button>
+
+      <a class="secondary"
+         href="https://www.eggermath.com/pokemon-firered"
+         target="_self"
+         data-es="↗ Abrir juego completo y guardados"
+         data-en="↗ Open full game and saves">
+        ↗ Abrir juego completo y guardados
+      </a>
+    </div>
+
+    <section class="game-panel" id="gamePanel">
+      <iframe
+        id="gameFrame"
+        class="game-frame"
+        title="Pokémon FireRed - EggerMath"
+        allow="fullscreen"
+        allowfullscreen>
+      </iframe>
+
+      <p class="note"
+         data-es="Usa los controles del juego. Para mayor fiabilidad al guardar, abre el juego directamente en EggerMath."
+         data-en="Use the game's controls. For more reliable saving, open the game directly on EggerMath.">
+        Usa los controles del juego. Para mayor
+        fiabilidad al guardar, abre el juego
+        directamente en EggerMath.
+      </p>
+    </section>
 
     <p class="note"
-      data-es="El juego se abrirá en una página externa. La compatibilidad depende del navegador y del dispositivo."
-      data-en="The game opens on an external website. Compatibility depends on your browser and device.">
-      El juego se abrirá en una página externa. La compatibilidad depende del navegador y del dispositivo.
+       data-es="Para continuar tu aventura otro día, utiliza Save y Load. Export te permite crear una copia de seguridad."
+       data-en="To continue another day, use Save and Load. Export lets you back up your progress.">
+      Para continuar tu aventura otro día,
+      utiliza Save y Load. Export te permite
+      crear una copia de seguridad.
+    </p>
+
+    <p class="note">
+      Juego alojado por
+      <a href="https://www.eggermath.com/pokemon-firered"
+         style="color:#ffcb05">EggerMath</a>.
     </p>
   </main>
 
   <footer>
-    <h3>✨ Nova Forge 3D</h3>
+    <h3 data-es="✨ Creado por Nova Forge 3D"
+        data-en="✨ Created by Nova Forge 3D">
+      ✨ Creado por Nova Forge 3D
+    </h3>
+
     <p data-es="Impresión 3D • Cosplay • Experiencias retro"
        data-en="3D Printing • Cosplay • Retro Experiences">
-       Impresión 3D • Cosplay • Experiencias retro
+      Impresión 3D • Cosplay • Experiencias retro
     </p>
+
     <a href="https://www.instagram.com/novaforge3.d/"
        target="_blank" rel="noopener noreferrer">
       📸 Instagram @novaforge3.d
     </a>
+
     <p class="copyright">© 2026 Nova Forge 3D</p>
   </footer>
 
   <script>
+    function showGame() {
+      const panel = document.getElementById("gamePanel");
+      const frame = document.getElementById("gameFrame");
+
+      if (!frame.src) {
+        frame.src =
+          "https://www.eggermath.com/pokemon-firered";
+      }
+
+      panel.classList.add("visible");
+
+      panel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
     function setLanguage(lang) {
       document.documentElement.lang = lang;
-      document.querySelectorAll("[data-es]").forEach(el => {
-        el.textContent = el.getAttribute("data-" + lang);
-      });
 
-      document.getElementById("es").classList.toggle("active", lang === "es");
-      document.getElementById("en").classList.toggle("active", lang === "en");
+      document.querySelectorAll("[data-es]").forEach(
+        function(element) {
+          element.textContent =
+            element.getAttribute("data-" + lang);
+        }
+      );
 
-      document.querySelector(".play").textContent =
-        lang === "es" ? "▶ JUGAR AHORA" : "▶ PLAY NOW";
+      document.getElementById("esBtn")
+        .classList.toggle("active", lang === "es");
+
+      document.getElementById("enBtn")
+        .classList.toggle("active", lang === "en");
     }
   </script>
 </body>
