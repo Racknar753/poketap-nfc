@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>PokéTap Blocks | Nova Forge 3D</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#101827;color:white;
+  font-family:Arial,sans-serif;text-align:center;
+}
+header,footer{
+  padding:16px;background:#1f2937;
+}
+h1,h2{color:#ffcb05}
+h1{margin:8px}
+h2{margin:10px}
+p{color:#cbd5e1}
+.flags button{
+  font-size:23px;background:#374151;
+  border:0;border-radius:10px;
+  padding:9px;margin:3px;
+}
+.flags button.active{background:#ffcb05}
+main{max-width:500px;margin:auto;padding:10px}
+.stats{
+  display:flex;justify-content:space-around;
+  background:#1f2937;border-radius:12px;
+  padding:12px;margin:12px 0;
+}
+.stats strong{color:#ffcb05}
+canvas{
+  display:block;
+  width:min(75vw,30dvh,310px);
+  height:auto;margin:12px auto;
+  background:#090f20;
+  border:3px solid #ffcb05;
+  border-radius:10px;
+}
+.controls{
+  display:flex;justify-content:center;
+  gap:7px;margin:14px auto;
+}
+.controls button,.actions button{
+  background:#ffcb05;color:#101827;
+  border:0;border-radius:12px;
+  min-width:50px;min-height:55px;
+  font-size:23px;font-weight:bold;
+  cursor:pointer;touch-action:manipulation;
+}
+.controls button{
+  flex:1;max-width:78px;
+}
+.actions{
+  display:flex;justify-content:center;
+  gap:12px;margin:15px auto;
+}
+.actions button{
+  padding:0 15px;font-size:14px;
+}
+footer a{color:#ffcb05}
+small{color:#94a3b8}
+</style>
+</head>
+<body>
+<header>
+  <div class="flags">
+    <button id="es" class="active" onclick="lang('es')">🇪🇸</button>
+    <button id="en" onclick="lang('en')">🇺🇸</button>
+  </div>
+  <h1>🎮 PokéTap</h1>
+  <p data-es="Tu consola retro de bolsillo"
+     data-en="Your pocket retro console">
+    Tu consola retro de bolsillo
+  </p>
+</header>
+
+<main>
+  <h2>🧱 BLOCK DROP</h2>
+  <p data-es="¡Completa líneas y supera tu récord!"
+     data-en="Clear lines and beat your high score!">
+    ¡Completa líneas y supera tu récord!
+  </p>
+
+  <div class="stats">
+    <div>⭐ <strong id="score">0</strong></div>
+    <div>🏆 <strong id="best">0</strong></div>
+    <div>🎯 <strong id="level">1</strong></div>
+    <div>🧱 <strong id="lines">0</strong></div>
+  </div>
+
+  <canvas id="board" width="300" height="600"></canvas>
+
+  <div class="controls">
+    <button onclick="move(-1)">◀</button>
+    <button onclick="rotate()">⟳</button>
+    <button onclick="move(1)">▶</button>
+    <button onclick="down(true)">▼</button>
+    <button onclick="hardDrop()">⤓</button>
+  </div>
+
+  <div class="actions">
+    <button id="pause" onclick="togglePause()">⏸ Pausa</button>
+    <button data-es="↻ Nueva partida"
+            data-en="↻ New game"
+            onclick="newGame()">↻ Nueva partida</button>
+  </div>
+
+  <p data-es="Tu partida se guarda en este navegador."
+     data-en="Your game is saved in this browser.">
+    Tu partida se guarda en este navegador.
+  </p>
+</main>
+
+<footer>
+  <h2>✨ Nova Forge 3D</h2>
+  <a href="https://www.instagram.com/novaforge3.d/">
+    📸 @novaforge3.d
+  </a>
+  <p><small>© 2026 PokéTap</small></p>
+</footer>
+
+<script>
+const canvas=document.getElementById("board");
+const ctx=canvas.getContext("2d");
+const SIZE=30;
+const W=10,H=20;
+const KEY="poketap_blocks_v1";
+const BEST_KEY="poketap_blocks_best";
+
+const SHAPES={
+ I:[[1,1,1,1]],
+ O:[[1,1],[1,1]],
+ T:[[0,1,0],[1,1,1]],
+ S:[[0,1,1],[1,1,0]],
+ Z:[[1,1,0],[0,1,1]],
+ J:[[1,0,0],[1,1,1]],
+ L:[[0,0,1],[1,1,1]]
+};
+
+const COLORS={
+ I:"#22d3ee",
+ O:"#fde047",
+ T:"#c084fc",
+ S:"#4ade80",
+ Z:"#fb7185",
+ J:"#60a5fa",
+ L:"#fb923c"
+};
+
+let board,current,score=0,lines=0;
+let paused=false,over=false;
+let bag=[];
+let clock;
+let best=0;
+
+try{
+  best=Number(localStorage.getItem(BEST_KEY))||0;
+}catch(e){}
+
+function getLevel(){
+  return Math.floor(lines/10)+1;
+}
+
+function save(){
+  try{
+    localStorage.setItem(KEY,JSON.stringify({
+      board,current,score,lines,
+      paused,over,bag
+    }));
+    localStorage.setItem(BEST_KEY,String(best));
+  }catch(e){}
+}
+
+function restore(){
+  try{
+    const s=JSON.parse(localStorage.getItem(KEY));
+    if(!s||!Array.isArray(s.board)||s.board.length!==H)
+      return false;
+
+    board=s.board;
+    current=s.current;
+    score=s.score;
+    lines=s.lines;
+    paused=s.paused;
+    over=s.over;
+    bag=s.bag||[];
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+function nextType(){
+  if(!bag.length){
+    bag=Object.keys(SHAPES);
+    for(let i=bag.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [bag[i],bag[j]]=[bag[j],bag[i]];
+    }
+  }
+  return bag.pop();
+}
+
+function spawn(){
+  const type=nextType();
+  const m=SHAPES[type].map(row=>[...row]);
+  current={
+    type,m,
+    x:Math.floor((W-m[0].length)/2),
+    y:0
+  };
+  if(collides(current,0,0))over=true;
+}
+
+function newGame(){
+  board=Array.from({length:H},()=>Array(W).fill(0));
+  score=0;
+  lines=0;
+  paused=false;
+  over=false;
+  bag=[];
+  spawn();
+  updateClock();
+  save();
+  draw();
+}
+
+function collides(piece,dx,dy,matrix=piece.m){
+  for(let y=0;y<matrix.length;y++){
+    for(let x=0;x<matrix[y].length;x++){
+      if(!matrix[y][x])continue;
+
+      const nx=piece.x+x+dx;
+      const ny=piece.y+y+dy;
+
+      if(nx<0||nx>=W||ny>=H)return true;
+      if(ny>=0&&board[ny][nx])return true;
+    }
+  }
+  return false;
+}
+
+function move(dx){
+  if(paused||over)return;
+  if(!collides(current,dx,0)){
+    current.x+=dx;
+    save();draw();
+  }
+}
+
+function rotate(){
+  if(paused||over)return;
+
+  const m=current.m;
+  const rotated=m[0].map((_,i)=>
+    m.map(row=>row[i]).reverse()
+  );
+
+  for(const kick of [0,-1,1,-2,2]){
+    if(!collides(current,kick,0,rotated)){
+      current.m=rotated;
+      current.x+=kick;
+      save();draw();
+      return;
+    }
+  }
+}
+
+function lockPiece(){
+  current.m.forEach((row,y)=>{
+    row.forEach((v,x)=>{
+      if(v&&current.y+y>=0){
+        board[current.y+y][current.x+x]=current.type;
+      }
+    });
+  });
+
+  let cleared=0;
+
+  for(let y=H-1;y>=0;y--){
+    if(board[y].every(Boolean)){
+      board.splice(y,1);
+      board.unshift(Array(W).fill(0));
+      cleared++;
+      y++;
+    }
+  }
+
+  const oldLevel=getLevel();
+  const points=[0,100,300,500,800];
+  score+=(points[cleared]||0)*oldLevel;
+  lines+=cleared;
+
+  if(score>best)best=score;
+
+  spawn();
+
+  if(getLevel()!==oldLevel){
+    updateClock();
+  }
+}
+
+function down(manual=false){
+  if(paused||over)return;
+
+  if(!collides(current,0,1)){
+    current.y++;
+    if(manual)score++;
+  }else{
+    lockPiece();
+  }
+
+  if(score>best)best=score;
+  save();
+  draw();
+}
+
+function hardDrop(){
+  if(paused||over)return;
+
+  while(!collides(current,0,1)){
+    current.y++;
+    score+=2;
+  }
+
+  lockPiece();
+  if(score>best)best=score;
+  save();
+  draw();
+}
+
+function updateClock(){
+  clearInterval(clock);
+  const speed=Math.max(130,720-(getLevel()-1)*65);
+  clock=setInterval(()=>down(false),speed);
+}
+
+function paintBlock(x,y,type,ghost=false){
+  const px=x*SIZE,py=y*SIZE;
+
+  ctx.globalAlpha=ghost?0.22:1;
+  ctx.fillStyle=COLORS[type];
+  ctx.fillRect(px+1,py+1,SIZE-2,SIZE-2);
+
+  if(!ghost){
+    ctx.fillStyle="rgba(255,255,255,.24)";
+    ctx.fillRect(px+4,py+3,SIZE-8,4);
+    ctx.strokeStyle="rgba(0,0,0,.25)";
+    ctx.strokeRect(px+2,py+2,SIZE-4,SIZE-4);
+  }
+
+  ctx.globalAlpha=1;
+}
+
+function draw(){
+  ctx.fillStyle="#090f20";
+  ctx.fillRect(0,0,300,600);
+
+  ctx.strokeStyle="#1e293b";
+  for(let x=0;x<=W;x++){
+    ctx.beginPath();
+    ctx.moveTo(x*SIZE,0);
+    ctx.lineTo(x*SIZE,600);
+    ctx.stroke();
+  }
+  for(let y=0;y<=H;y++){
+    ctx.beginPath();
+    ctx.moveTo(0,y*SIZE);
+    ctx.lineTo(300,y*SIZE);
+    ctx.stroke();
+  }
+
+  board.forEach((row,y)=>{
+    row.forEach((type,x)=>{
+      if(type)paintBlock(x,y,type);
+    });
+  });
+
+  if(current){
+    let gy=current.y;
+    while(!collides({...current,y:gy},0,1)){
+      gy++;
+    }
+
+    current.m.forEach((row,y)=>{
+      row.forEach((v,x)=>{
+        if(v&&gy+y>=0){
+          paintBlock(current.x+x,gy+y,current.type,true);
+        }
+      });
+    });
+
+    current.m.forEach((row,y)=>{
+      row.forEach((v,x)=>{
+        if(v&&current.y+y>=0){
+          paintBlock(
+            current.x+x,
+            current.y+y,
+            current.type
+          );
+        }
+      });
+    });
+  }
+
+  if(paused||over){
+    ctx.fillStyle="rgba(0,0,0,.78)";
+    ctx.fillRect(0,0,300,600);
+    ctx.fillStyle="#ffcb05";
+    ctx.textAlign="center";
+    ctx.font="bold 25px Arial";
+    ctx.fillText(over?"GAME OVER":"PAUSA",150,300);
+  }
+
+  document.getElementById("score").textContent=score;
+  document.getElementById("best").textContent=best;
+  document.getElementById("level").textContent=getLevel();
+  document.getElementById("lines").textContent=lines;
+}
+
+function togglePause(){
+  if(over){newGame();return}
+  paused=!paused;
+  document.getElementById("pause").textContent=
+    paused?"▶ Continuar":"⏸ Pausa";
+  save();
+  draw();
+}
+
+document.addEventListener("keydown",e=>{
+  if(["ArrowLeft","ArrowRight","ArrowDown",
+      "ArrowUp"," "].includes(e.key)){
+    e.preventDefault();
+  }
+
+  if(e.key==="ArrowLeft")move(-1);
+  if(e.key==="ArrowRight")move(1);
+  if(e.key==="ArrowDown")down(true);
+  if(e.key==="ArrowUp")rotate();
+  if(e.key===" ")hardDrop();
+  if(e.key.toLowerCase()==="p")togglePause();
+});
+
+function lang(l){
+  document.documentElement.lang=l;
+  document.querySelectorAll("[data-es]").forEach(el=>{
+    el.textContent=el.getAttribute("data-"+l);
+  });
+  document.getElementById("es").classList.toggle("active",l==="es");
+  document.getElementById("en").classList.toggle("active",l==="en");
+}
+
+if(!restore())newGame();
+updateClock();
+draw();
+</script>
+</body>
+</html>
